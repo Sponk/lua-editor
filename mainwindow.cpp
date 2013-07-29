@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QTextStream>
+#include "newfiledlg.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,14 +22,37 @@ MainWindow::~MainWindow()
 
 void MainWindow::newFile()
 {
-    QMessageBox::information(NULL, tr("Sorry"), tr("Sorry, 'New' is not implemented yet"));
+    NewFileDlg dlg;
+    int result = dlg.exec();
+
+    if(!result)
+        return;
+
+#ifndef WIN32
+    QString name = dlg.path.toStdString().substr(dlg.path.lastIndexOf("/") + 1).c_str();
+#else
+    QString name = dlg.path.toStdString().substr(dlg.path.lastIndexOf("\\") + 1).c_str();
+#endif
+
+    ui->sourceEdit->setEnabled(true);
+
+    QListWidgetItem* item = new QListWidgetItem();
+    item->setText(name);
+    item->setData(1001, "");
+    item->setData(1002, dlg.path);
+
+    ui->openFilesList->addItem(item);
+    ui->openFilesList->setCurrentRow(numOpenFiles);
+    ui->sourceEdit->setText("");
+
+    numOpenFiles++;
 }
 
 void MainWindow::openFile()
 {
     ui->sourceEdit->setEnabled(true);
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.*)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*)"));
     QFile file(fileName);
     int index = numOpenFiles;
 
@@ -62,12 +86,13 @@ void MainWindow::openFile()
 
     QListWidgetItem* item = new QListWidgetItem();
     item->setText(name);
-    item->setData(1001, content);
+
+    fileContents[fileName] = content;
     item->setData(1002, fileName);
 
     ui->openFilesList->addItem(item);
-    ui->sourceEdit->setText(content);
     ui->openFilesList->setCurrentRow(index);
+    ui->sourceEdit->setText(content);
 
     numOpenFiles++;
 }
@@ -76,6 +101,8 @@ void MainWindow::saveFile()
 {
     if(numOpenFiles == 0)
         return;
+
+    updateCache();
 
     QListWidgetItem* item = ui->openFilesList->selectedItems()[0];
     QString path = item->data(1002).toString();
@@ -92,7 +119,7 @@ void MainWindow::saveFile()
     }
 
     QTextStream stream(&file);
-    stream << item->data(1001).toString();
+    stream << fileContents[item->data(1002).toString()];
 
     file.close();
 }
@@ -104,7 +131,22 @@ void MainWindow::saveFileAs()
 
 void MainWindow::changeSelectedFile(int idx)
 {
+    updateCache();
+
     QListWidgetItem* item = ui->openFilesList->item(idx);
-    ui->sourceEdit->setText(item->data(1001).toString());
+
+    ui->sourceEdit->setText(fileContents[item->data(1002).toString()]);
     this->setWindowTitle(item->data(1002).toString());
+}
+
+void MainWindow::updateCache()
+{
+    QListWidgetItem* item = ui->openFilesList->selectedItems()[0];
+    fileContents[item->data(1002).toString()] = ui->sourceEdit->toPlainText();
+}
+
+void MainWindow::updateEditorText()
+{
+    if(numOpenFiles == 0)
+        return;
 }

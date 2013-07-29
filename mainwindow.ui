@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <property name="spacing">
-     <number>1</number>
+     <number>3</number>
     </property>
     <property name="margin">
      <number>0</number>
@@ -310,6 +310,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>sourceEdit</sender>
+   <signal>textChanged()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateEditorText()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>462</x>
+     <y>185</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>258</x>
+     <y>195</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>newFile()</slot>
@@ -318,5 +334,6 @@
   <slot>saveFileAs()</slot>
   <slot>quit()</slot>
   <slot>changeSelectedFile(int)</slot>
+  <slot>updateEditorText()</slot>
  </slots>
 </ui>

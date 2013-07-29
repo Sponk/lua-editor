@@ -13,12 +13,15 @@ TRANSLATIONS = lua-editor_de.ts lua-editor_en.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    LuaHighlighter.cpp
+    LuaHighlighter.cpp \
+    newfiledlg.cpp
 
 HEADERS  += mainwindow.h \
-    LuaHighlighter.h
+    LuaHighlighter.h \
+    newfiledlg.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    newfiledlg.ui
 
 RESOURCES += \
     Icons.qrc
