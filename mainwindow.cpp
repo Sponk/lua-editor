@@ -26,6 +26,8 @@ void MainWindow::newFile()
 
 void MainWindow::openFile()
 {
+    ui->sourceEdit->setEnabled(true);
+
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.*)"));
     QFile file(fileName);
     int index = numOpenFiles;
@@ -72,7 +74,27 @@ void MainWindow::openFile()
 
 void MainWindow::saveFile()
 {
-    QMessageBox::information(NULL, tr("Sorry"), tr("Sorry, 'Save' is not implemented yet"));
+    if(numOpenFiles == 0)
+        return;
+
+    QListWidgetItem* item = ui->openFilesList->selectedItems()[0];
+    QString path = item->data(1002).toString();
+
+    if(path.isEmpty())
+        return;
+
+    QFile file(path);
+
+    if(!file.open(QIODevice::WriteOnly))
+    {
+        QMessageBox::information(NULL, tr("Error"), file.errorString());
+        return;
+    }
+
+    QTextStream stream(&file);
+    stream << item->data(1001).toString();
+
+    file.close();
 }
 
 void MainWindow::saveFileAs()

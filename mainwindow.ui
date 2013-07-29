@@ -41,7 +41,11 @@
      </widget>
     </item>
     <item>
-     <widget class="QTextEdit" name="sourceEdit"/>
+     <widget class="QTextEdit" name="sourceEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
