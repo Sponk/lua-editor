@@ -10,6 +10,9 @@ LuaHighlighter::LuaHighlighter(QObject *parent) :
 
 void LuaHighlighter::highlightBlock(const QString& text)
 {
+    QFont bold;
+    bold.setBold(true);
+
     for(int i = 0; i < text.length(); i++)
     {
         if(text.at(i).isNumber())
@@ -28,6 +31,28 @@ void LuaHighlighter::highlightBlock(const QString& text)
 
         if(idx != -1)
             setFormat(idx, 8, endColor);
+
+
+        // Bold
+        idx = text.indexOf("if");
+
+        if(idx != -1)
+            setFormat(idx, 2, bold);
+
+        idx = text.indexOf("then");
+
+        if(idx != -1)
+            setFormat(idx, 4, bold);
+
+        idx = text.indexOf("for");
+
+        if(idx != -1)
+            setFormat(idx, 3, bold);
+
+        idx = text.indexOf("do");
+
+        if(idx != -1)
+            setFormat(idx, 2, bold);
 
         // Comments
         idx = text.indexOf("--");
