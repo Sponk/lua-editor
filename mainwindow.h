@@ -31,6 +31,7 @@ public slots:
     void saveFileAs();
     void changeSelectedFile(int idx);
     void updateEditorText();
+    void cursorPositionChanged();
 
 private:
     Ui::MainWindow *ui;

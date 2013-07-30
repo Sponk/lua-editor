@@ -117,6 +117,7 @@
    <addaction name="actionSave"/>
    <addaction name="separator"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="action_new">
    <property name="text">
     <string>New</string>
@@ -343,6 +344,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>sourceEdit</sender>
+   <signal>cursorPositionChanged()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cursorPositionChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>434</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>257</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>newFile()</slot>
@@ -352,5 +369,6 @@
   <slot>quit()</slot>
   <slot>changeSelectedFile(int)</slot>
   <slot>updateEditorText()</slot>
+  <slot>cursorPositionChanged()</slot>
  </slots>
 </ui>

@@ -39,6 +39,12 @@ void LuaHighlighter::highlightBlock(const QString& text)
         if(idx != -1)
             setFormat(idx, 2, bold);
 
+        idx = text.indexOf("else");
+
+        if(idx != -1)
+            setFormat(idx, 4, bold);
+
+
         idx = text.indexOf("then");
 
         if(idx != -1)
@@ -53,6 +59,11 @@ void LuaHighlighter::highlightBlock(const QString& text)
 
         if(idx != -1)
             setFormat(idx, 2, bold);
+
+        idx = text.indexOf("nil");
+
+        if(idx != -1)
+            setFormat(idx, 3, bold);
 
         // Comments
         idx = text.indexOf("--");
