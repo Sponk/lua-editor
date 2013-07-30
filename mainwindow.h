@@ -2,8 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QApplication>
 #include "LuaHighlighter.h"
 #include <map>
+#include <QTranslator>
 
 extern "C"
 {
@@ -23,6 +25,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    QApplication* app;
     
 public slots:
     void newFile();
@@ -32,6 +36,8 @@ public slots:
     void changeSelectedFile(int idx);
     void updateEditorText();
     void cursorPositionChanged();
+    void germanSelected(bool status);
+    void englishSelected(bool status);
 
 private:
     Ui::MainWindow *ui;
@@ -41,6 +47,8 @@ private:
     std::map<QString, QString> fileContents;
 
     lua_State* luaState;
+
+    QTranslator* currentTranslation;
 
     void updateCache();
 };

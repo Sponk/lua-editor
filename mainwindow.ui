@@ -87,7 +87,28 @@
     <addaction name="separator"/>
     <addaction name="action_quit"/>
    </widget>
+   <widget class="QMenu" name="menuEidt">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <widget class="QMenu" name="menuSettings">
+     <property name="title">
+      <string>Settings</string>
+     </property>
+     <widget class="QMenu" name="menuLanguage">
+      <property name="title">
+       <string>Language</string>
+      </property>
+      <addaction name="actionGerman"/>
+      <addaction name="actionEnglish"/>
+     </widget>
+     <addaction name="actionConfigureation"/>
+     <addaction name="menuLanguage"/>
+    </widget>
+    <addaction name="menuSettings"/>
+   </widget>
    <addaction name="menuDatei"/>
+   <addaction name="menuEidt"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="movable">
@@ -192,6 +213,27 @@
    </property>
    <property name="toolTip">
     <string>Save file</string>
+   </property>
+  </action>
+  <action name="actionConfigureation">
+   <property name="text">
+    <string>Configuration</string>
+   </property>
+  </action>
+  <action name="actionGerman">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>German</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>English</string>
    </property>
   </action>
  </widget>
@@ -360,6 +402,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionGerman</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>germanSelected(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>376</x>
+     <y>233</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionEnglish</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>englishSelected(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>376</x>
+     <y>233</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>newFile()</slot>
@@ -370,5 +444,7 @@
   <slot>changeSelectedFile(int)</slot>
   <slot>updateEditorText()</slot>
   <slot>cursorPositionChanged()</slot>
+  <slot>germanSelected(bool)</slot>
+  <slot>englishSelected(bool)</slot>
  </slots>
 </ui>

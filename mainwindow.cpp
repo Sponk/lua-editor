@@ -3,16 +3,25 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QTextStream>
+#include <QTranslator>
 #include "newfiledlg.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    currentTranslation = new QTranslator();
+    currentTranslation->load("lua-editor_en", ":/translations");
+
+    app->installTranslator(currentTranslation);
+
     ui->setupUi(this);
+
+    ui->actionEnglish->setChecked(true);
 
     syntaxHighlighter.setDocument(ui->sourceEdit->document());
     numOpenFiles = 0;
+    currentTranslation = NULL;
 
     luaState = luaL_newstate();
     luaopen_base(luaState);
@@ -22,6 +31,7 @@ MainWindow::~MainWindow()
 {
     lua_close(luaState);
     delete ui;    
+    delete currentTranslation;
 }
 
 void MainWindow::newFile()
@@ -177,7 +187,43 @@ void MainWindow::cursorPositionChanged()
     QString message = tr("Line: ") + QString("%1").arg(pos);
 
     pos = ui->sourceEdit->textCursor().columnNumber() + 1;
-    message += " Column: " + QString("%1").arg(pos);
+    message += " " + tr("Column: ") + QString("%1").arg(pos);
 
     ui->statusBar->showMessage(message);
+}
+
+void MainWindow::germanSelected(bool status)
+{
+    ui->actionEnglish->setChecked(!status);
+
+    if(status)
+    {
+        app->removeTranslator(currentTranslation);
+
+        if(currentTranslation != NULL)
+            delete currentTranslation;
+
+        currentTranslation = new QTranslator();
+        currentTranslation->load("lua-editor_de", ":/translations");
+
+        app->installTranslator(currentTranslation);
+        ui->retranslateUi(this);
+    }
+}
+
+void MainWindow::englishSelected(bool status)
+{
+    ui->actionGerman->setChecked(!status);
+
+    if(status)
+    {
+        if(currentTranslation != NULL)
+            delete currentTranslation;
+
+        currentTranslation = new QTranslator();
+        currentTranslation->load("lua-editor_en", ":/translations");
+
+        app->installTranslator(currentTranslation);
+        ui->retranslateUi(this);
+    }
 }
