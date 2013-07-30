@@ -173,11 +173,11 @@ void MainWindow::updateEditorText()
 
 void MainWindow::cursorPositionChanged()
 {
-    int pos = ui->sourceEdit->textCursor().blockNumber();
+    int pos = ui->sourceEdit->textCursor().blockNumber() + 1;
     QString message = tr("Line: ") + QString("%1").arg(pos);
 
-    pos = ui->sourceEdit->textCursor().position();
-    message += " Pos: " + QString("%1").arg(pos);
+    pos = ui->sourceEdit->textCursor().columnNumber() + 1;
+    message += " Column: " + QString("%1").arg(pos);
 
     ui->statusBar->showMessage(message);
 }
