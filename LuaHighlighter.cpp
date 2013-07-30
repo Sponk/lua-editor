@@ -41,7 +41,7 @@ void LuaHighlighter::highlightBlock(const QString& text)
         // Quotes
         idx = text.indexOf("\"");
 
-        if(idx != -1 && idx < comment)
+        if(idx != -1 && (idx < comment || comment == -1))
         {
             int idx2 = text.indexOf("\"", idx + 1);
 
