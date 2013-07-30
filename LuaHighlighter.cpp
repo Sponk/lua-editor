@@ -5,6 +5,7 @@ LuaHighlighter::LuaHighlighter(QObject *parent) :
     QSyntaxHighlighter(parent)
 {
     endColor.setRgb(0x33, 0xCC, 0xFF);
+    commentColor.setRgb(0x33, 0xFF, 0xCC);
 }
 
 void LuaHighlighter::highlightBlock(const QString& text)
@@ -28,10 +29,19 @@ void LuaHighlighter::highlightBlock(const QString& text)
         if(idx != -1)
             setFormat(idx, 8, endColor);
 
+        // Comments
+        idx = text.indexOf("--");
+        int comment = idx;
+
+        if(idx != -1)
+        {
+            setFormat(idx, text.length() - idx, commentColor);
+        }
+
         // Quotes
         idx = text.indexOf("\"");
 
-        if(idx != -1)
+        if(idx != -1 && idx < comment)
         {
             int idx2 = text.indexOf("\"", idx + 1);
 

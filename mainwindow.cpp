@@ -13,11 +13,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     syntaxHighlighter.setDocument(ui->sourceEdit->document());
     numOpenFiles = 0;
+
+    luaState = luaL_newstate();
+    luaopen_base(luaState);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    lua_close(luaState);
+    delete ui;    
 }
 
 void MainWindow::newFile()
@@ -38,7 +42,6 @@ void MainWindow::newFile()
 
     QListWidgetItem* item = new QListWidgetItem();
     item->setText(name);
-    item->setData(1001, "");
     item->setData(1002, dlg.path);
 
     ui->openFilesList->addItem(item);
@@ -134,9 +137,11 @@ void MainWindow::changeSelectedFile(int idx)
     updateCache();
 
     QListWidgetItem* item = ui->openFilesList->item(idx);
+    QString file = item->data(1002).toString();
+    QString content = fileContents[file];
 
-    ui->sourceEdit->setText(fileContents[item->data(1002).toString()]);
-    this->setWindowTitle(item->data(1002).toString());
+    ui->sourceEdit->setText(content);
+    this->setWindowTitle(file);
 }
 
 void MainWindow::updateCache()
@@ -149,4 +154,18 @@ void MainWindow::updateEditorText()
 {
     if(numOpenFiles == 0)
         return;
+
+    QString content = ui->sourceEdit->toPlainText();
+
+    int error = luaL_loadbuffer(luaState, content.toAscii(), content.length(), "line");
+
+    if(error)
+    {
+        ui->errorEdit->setText(lua_tostring(luaState, -1));
+        lua_pop(luaState, 1);
+    }
+    else
+    {
+        ui->errorEdit->clear();
+    }
 }

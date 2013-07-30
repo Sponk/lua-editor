@@ -5,6 +5,13 @@
 #include "LuaHighlighter.h"
 #include <map>
 
+extern "C"
+{
+    #include <lua.h>
+    #include <lualib.h>
+    #include <lauxlib.h>
+}
+
 namespace Ui {
 class MainWindow;
 }
@@ -31,6 +38,8 @@ private:
     int numOpenFiles;
 
     std::map<QString, QString> fileContents;
+
+    lua_State* luaState;
 
     void updateCache();
 };

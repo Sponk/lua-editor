@@ -25,3 +25,7 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     Icons.qrc
+
+INCLUDEPATH += $$PWD/lua/lua-5.2.2/install/include
+
+LIBS += -L$$PWD/lua/lua-5.2.2/install/lib -llua

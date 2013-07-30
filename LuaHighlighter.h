@@ -18,6 +18,7 @@ private:
     QColor numberColor;
     QColor endColor;
     QColor functionColor;
+    QColor commentColor;
     
 };
 
