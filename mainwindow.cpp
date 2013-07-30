@@ -53,8 +53,6 @@ void MainWindow::newFile()
 
 void MainWindow::openFile()
 {
-    ui->sourceEdit->setEnabled(true);
-
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*)"));
     QFile file(fileName);
     int index = numOpenFiles;
@@ -76,6 +74,9 @@ void MainWindow::openFile()
         QMessageBox::information(NULL, tr("Error"), file.errorString());
         return;
     }
+
+    ui->sourceEdit->setEnabled(true);
+
     QTextStream in(&file);
     QString content;
 
