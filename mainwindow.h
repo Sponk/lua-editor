@@ -67,6 +67,7 @@ public slots:
     void germanSelected(bool status);
     void englishSelected(bool status);
     void about();
+    void find();
 
 private:
     Ui::MainWindow *ui;

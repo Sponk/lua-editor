@@ -34,6 +34,7 @@
 #include <QTranslator>
 #include "newfiledlg.h"
 #include "AboutDlg.h"
+#include "FindDlg.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -262,4 +263,17 @@ void MainWindow::about()
 {
     AboutDlg dlg;
     dlg.exec();
+}
+
+void MainWindow::find()
+{
+    if(numOpenFiles == 0)
+        return;
+
+    FindDlg dlg;
+
+    if(dlg.exec())
+    {
+        ui->sourceEdit->find(dlg.searchTerm, QTextDocument::FindCaseSensitively);
+    }
 }

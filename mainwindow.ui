@@ -121,6 +121,7 @@
      <addaction name="actionConfigureation"/>
      <addaction name="menuLanguage"/>
     </widget>
+    <addaction name="actionFind"/>
     <addaction name="menuSettings"/>
    </widget>
    <widget class="QMenu" name="menuHelop">
@@ -262,6 +263,14 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionFind">
+   <property name="text">
+    <string>Find</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
    </property>
   </action>
  </widget>
@@ -478,6 +487,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionFind</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>find()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>475</x>
+     <y>302</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>newFile()</slot>
@@ -491,5 +516,6 @@
   <slot>germanSelected(bool)</slot>
   <slot>englishSelected(bool)</slot>
   <slot>about()</slot>
+  <slot>find()</slot>
  </slots>
 </ui>
