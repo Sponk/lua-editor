@@ -6,12 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>753</width>
-    <height>467</height>
+    <width>952</width>
+    <height>605</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>LuaEditor</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Icons.qrc">
+    <normaloff>:/icons/icons/accessories-text-editor.svg</normaloff>:/icons/icons/accessories-text-editor.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -83,7 +87,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>753</width>
+     <width>952</width>
      <height>27</height>
     </rect>
    </property>
