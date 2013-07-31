@@ -5,6 +5,7 @@
 #include <QTextStream>
 #include <QTranslator>
 #include "newfiledlg.h"
+#include "AboutDlg.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -109,6 +110,7 @@ void MainWindow::openFile()
     ui->sourceEdit->setText(content);
 
     numOpenFiles++;
+    updateEditorText();
 }
 
 void MainWindow::saveFile()
@@ -226,4 +228,10 @@ void MainWindow::englishSelected(bool status)
         app->installTranslator(currentTranslation);
         ui->retranslateUi(this);
     }
+}
+
+void MainWindow::about()
+{
+    AboutDlg dlg;
+    dlg.exec();
 }

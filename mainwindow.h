@@ -38,6 +38,7 @@ public slots:
     void cursorPositionChanged();
     void germanSelected(bool status);
     void englishSelected(bool status);
+    void about();
 
 private:
     Ui::MainWindow *ui;
