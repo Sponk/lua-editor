@@ -172,6 +172,19 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>FindDlg</name>
+    <message>
+        <location filename="finddlg.ui" line="14"/>
+        <source>Find</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="finddlg.ui" line="26"/>
+        <source>Search term:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>
@@ -179,157 +192,167 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="92"/>
+        <location filename="mainwindow.ui" line="96"/>
         <source>File</source>
         <translation type="unfinished">File</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="104"/>
+        <location filename="mainwindow.ui" line="108"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="108"/>
+        <location filename="mainwindow.ui" line="112"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="112"/>
+        <location filename="mainwindow.ui" line="116"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="124"/>
+        <location filename="mainwindow.ui" line="129"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="163"/>
-        <location filename="mainwindow.ui" line="207"/>
+        <location filename="mainwindow.ui" line="168"/>
+        <location filename="mainwindow.ui" line="212"/>
         <source>New</source>
         <translation type="unfinished">New</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="166"/>
+        <location filename="mainwindow.ui" line="171"/>
         <source>Ctrl+N</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="171"/>
-        <location filename="mainwindow.ui" line="219"/>
+        <location filename="mainwindow.ui" line="176"/>
+        <location filename="mainwindow.ui" line="224"/>
         <source>Open</source>
         <translation type="unfinished">Open</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="174"/>
+        <location filename="mainwindow.ui" line="179"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="179"/>
-        <location filename="mainwindow.ui" line="231"/>
+        <location filename="mainwindow.ui" line="184"/>
+        <location filename="mainwindow.ui" line="236"/>
         <source>Save</source>
         <translation type="unfinished">Save</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="182"/>
+        <location filename="mainwindow.ui" line="187"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="187"/>
+        <location filename="mainwindow.ui" line="192"/>
         <source>Save as...</source>
         <translation type="unfinished">Save as...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="190"/>
+        <location filename="mainwindow.ui" line="195"/>
         <source>Ctrl+Shift+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="195"/>
+        <location filename="mainwindow.ui" line="200"/>
         <source>Quit</source>
         <translation type="unfinished">Quit</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="198"/>
+        <location filename="mainwindow.ui" line="203"/>
         <source>Ctrl+Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="210"/>
+        <location filename="mainwindow.ui" line="215"/>
         <source>Create a new file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="222"/>
+        <location filename="mainwindow.ui" line="227"/>
         <source>Open a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="234"/>
+        <location filename="mainwindow.ui" line="239"/>
         <source>Save file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="239"/>
+        <location filename="mainwindow.ui" line="244"/>
         <source>Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="247"/>
+        <location filename="mainwindow.ui" line="252"/>
         <source>German</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="255"/>
+        <location filename="mainwindow.ui" line="260"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="260"/>
+        <location filename="mainwindow.ui" line="265"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="95"/>
+        <location filename="mainwindow.ui" line="270"/>
+        <source>Find</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="273"/>
+        <source>Ctrl+F</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="96"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="95"/>
+        <location filename="mainwindow.cpp" line="96"/>
         <source>Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="107"/>
-        <location filename="mainwindow.cpp" line="113"/>
-        <location filename="mainwindow.cpp" line="161"/>
+        <location filename="mainwindow.cpp" line="108"/>
+        <location filename="mainwindow.cpp" line="114"/>
+        <location filename="mainwindow.cpp" line="162"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="107"/>
+        <location filename="mainwindow.cpp" line="108"/>
         <source>A file with this name is already open!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="173"/>
+        <location filename="mainwindow.cpp" line="174"/>
         <source>Sorry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="173"/>
+        <location filename="mainwindow.cpp" line="174"/>
         <source>Sorry, &apos;Save file as...&apos;&apos; is not implemented yet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="217"/>
+        <location filename="mainwindow.cpp" line="218"/>
         <source>Line: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="220"/>
+        <location filename="mainwindow.cpp" line="221"/>
         <source>Column: </source>
         <translation type="unfinished"></translation>
     </message>

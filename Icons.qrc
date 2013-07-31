@@ -6,7 +6,7 @@
         <file>icons/accessories-text-editor.svg</file>
     </qresource>
     <qresource prefix="/translations">
-        <file>lua-editor_de.qm</file>
         <file>lua-editor_en.qm</file>
+        <file>lua-editor_de.qm</file>
     </qresource>
 </RCC>
