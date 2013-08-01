@@ -181,8 +181,14 @@ void MainWindow::openFile(QString path)
 
 void MainWindow::saveFileAs()
 {
+    if(numOpenFiles <= 0)
+        return;
+
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Files (*)"));
     QListWidgetItem* item = ui->openFilesList->selectedItems()[0];
+
+    if(fileName == "")
+        return;
 
     saveFile(fileName, fileContents[item->data(1002).toString()]);
     openFile(fileName);
