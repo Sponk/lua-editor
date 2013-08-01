@@ -61,7 +61,6 @@ MainWindow::~MainWindow()
 {
     lua_close(luaState);
     delete ui;    
-    delete currentTranslation;
 }
 
 void MainWindow::newFile()
