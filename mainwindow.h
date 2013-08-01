@@ -68,8 +68,10 @@ public slots:
     void englishSelected(bool status);
     void about();
     void find();
+    void quit();
 
 private:
+
     Ui::MainWindow *ui;
     LuaHighlighter syntaxHighlighter;
     int numOpenFiles;
@@ -81,6 +83,8 @@ private:
     QTranslator* currentTranslation;
 
     void updateCache();
+    void saveFile(QString path, QString content);
+    void openFile(QString path);
 };
 
 #endif // MAINWINDOW_H

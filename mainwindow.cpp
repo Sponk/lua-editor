@@ -94,13 +94,51 @@ void MainWindow::newFile()
 void MainWindow::openFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*)"));
-    QFile file(fileName);
+
+    openFile(fileName);
+}
+
+void MainWindow::saveFile()
+{
+    if(numOpenFiles == 0)
+        return;
+
+    updateCache();
+
+    QListWidgetItem* item = ui->openFilesList->selectedItems()[0];
+    QString path = item->data(1002).toString();
+
+    if(path.isEmpty())
+        return;
+
+    saveFile(path, fileContents[item->data(1002).toString()]);
+}
+
+void MainWindow::saveFile(QString path, QString content)
+{
+    QFile file(path);
+
+    if(!file.open(QIODevice::WriteOnly))
+    {
+        QMessageBox::information(NULL, tr("Error"), file.errorString());
+        return;
+    }
+
+    QTextStream stream(&file);
+    stream << content;
+
+    file.close();
+}
+
+void MainWindow::openFile(QString path)
+{
+    QFile file(path);
     int index = numOpenFiles;
 
 #ifndef WIN32
-    QString name = fileName.toStdString().substr(fileName.lastIndexOf("/") + 1).c_str();
+    QString name = path.toStdString().substr(path.lastIndexOf("/") + 1).c_str();
 #else
-    QString name = fileName.toStdString().substr(fileName.lastIndexOf("\\") + 1).c_str();
+    QString name = path.toStdString().substr(path.lastIndexOf("\\") + 1).c_str();
 #endif
 
     if(ui->openFilesList->findItems(name, Qt::MatchCaseSensitive).size() != 0)
@@ -131,8 +169,8 @@ void MainWindow::openFile()
     QListWidgetItem* item = new QListWidgetItem();
     item->setText(name);
 
-    fileContents[fileName] = content;
-    item->setData(1002, fileName);
+    fileContents[path] = content;
+    item->setData(1002, path);
 
     ui->openFilesList->addItem(item);
     ui->openFilesList->setCurrentRow(index);
@@ -142,41 +180,19 @@ void MainWindow::openFile()
     updateEditorText();
 }
 
-void MainWindow::saveFile()
-{
-    if(numOpenFiles == 0)
-        return;
-
-    updateCache();
-
-    QListWidgetItem* item = ui->openFilesList->selectedItems()[0];
-    QString path = item->data(1002).toString();
-
-    if(path.isEmpty())
-        return;
-
-    QFile file(path);
-
-    if(!file.open(QIODevice::WriteOnly))
-    {
-        QMessageBox::information(NULL, tr("Error"), file.errorString());
-        return;
-    }
-
-    QTextStream stream(&file);
-    stream << fileContents[item->data(1002).toString()];
-
-    file.close();
-}
-
 void MainWindow::saveFileAs()
 {
-    QMessageBox::information(NULL, tr("Sorry"), tr("Sorry, 'Save file as...'' is not implemented yet"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Files (*)"));
+    QListWidgetItem* item = ui->openFilesList->selectedItems()[0];
+
+    saveFile(fileName, fileContents[item->data(1002).toString()]);
+    openFile(fileName);
 }
 
 void MainWindow::changeSelectedFile(int idx)
 {
-    updateCache();
+    if(numOpenFiles > 1)
+        updateCache();
 
     QListWidgetItem* item = ui->openFilesList->item(idx);
     QString file = item->data(1002).toString();
@@ -276,4 +292,9 @@ void MainWindow::find()
     {
         ui->sourceEdit->find(dlg.searchTerm, QTextDocument::FindCaseSensitively);
     }
+}
+
+void MainWindow::quit()
+{
+    this->close();
 }

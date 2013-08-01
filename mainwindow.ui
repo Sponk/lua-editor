@@ -17,6 +17,9 @@
    <iconset resource="Icons.qrc">
     <normaloff>:/icons/icons/accessories-text-editor.svg</normaloff>:/icons/icons/accessories-text-editor.svg</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <property name="spacing">
@@ -492,6 +495,22 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>find()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>475</x>
+     <y>302</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_quit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>quit()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
