@@ -20,6 +20,9 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <property name="spacing">

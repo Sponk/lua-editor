@@ -31,9 +31,11 @@
 
 #include <QMainWindow>
 #include <QApplication>
+#include <QCloseEvent>
 #include "LuaHighlighter.h"
 #include <map>
 #include <QTranslator>
+#include "settings.h"
 
 extern "C"
 {
@@ -54,9 +56,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void loadSettings();
+    void openFile(QString path);
+
     QApplication* app;
     
 public slots:
+    void closeEvent(QCloseEvent* event);
+
     void newFile();
     void openFile();
     void saveFile();
@@ -81,10 +88,10 @@ private:
     lua_State* luaState;
 
     QTranslator* currentTranslation;
+    Settings settings;
 
     void updateCache();
     void saveFile(QString path, QString content);
-    void openFile(QString path);
 };
 
 #endif // MAINWINDOW_H

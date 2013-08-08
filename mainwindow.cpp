@@ -258,6 +258,8 @@ void MainWindow::germanSelected(bool status)
         currentTranslation = new QTranslator();
         currentTranslation->load("lua-editor_de", ":/translations");
 
+        settings.setLanguage("lua-editor_de");
+
         app->installTranslator(currentTranslation);
         ui->retranslateUi(this);
     }
@@ -274,6 +276,8 @@ void MainWindow::englishSelected(bool status)
 
         currentTranslation = new QTranslator();
         currentTranslation->load("lua-editor_en", ":/translations");
+
+        settings.setLanguage("lua-editor_en");
 
         app->installTranslator(currentTranslation);
         ui->retranslateUi(this);
@@ -301,5 +305,34 @@ void MainWindow::find()
 
 void MainWindow::quit()
 {
+    settings.save();
     this->close();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    event->accept();
+    quit();
+}
+
+void MainWindow::loadSettings()
+{
+    QString path;
+
+#ifndef WIN32
+    path = QDir::homePath() + "/.lua-editor.conf";
+#else
+    path = QDir::homePath() + "\\.lua-editor.conf";
+#endif
+
+    if(!settings.load(path))
+    {
+        settings.save();
+        return;
+    }
+
+    if(settings.getLanguage() == "lua-editor_en")
+        englishSelected(true);
+    else if(settings.getLanguage() == "lua-editor_de")
+        germanSelected(true);
 }

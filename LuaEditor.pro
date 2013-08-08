@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xml
 
-TARGET = LuaEditor
+TARGET = lua-editor
 TEMPLATE = app
 
 TRANSLATIONS = lua-editor_de.ts lua-editor_en.ts
@@ -16,13 +16,15 @@ SOURCES += main.cpp\
     LuaHighlighter.cpp \
     newfiledlg.cpp \
     AboutDlg.cpp \
-    FindDlg.cpp
+    FindDlg.cpp \
+    settings.cpp
 
 HEADERS  += mainwindow.h \
     LuaHighlighter.h \
     newfiledlg.h \
     AboutDlg.h \
-    FindDlg.h
+    FindDlg.h \
+    settings.h
 
 FORMS    += mainwindow.ui \
     newfiledlg.ui \
