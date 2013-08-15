@@ -48,9 +48,23 @@ void LuaHighlighter::highlightBlock(const QString& text)
             setFormat(i, 1, Qt::green);
         }
 
+        QStringList list = text.split(" ");
+        QString word;
 
+        for(int i = 0; i < list.size(); i++)
+        {
+            word = list.at(i);
+            if(word == "end")
+                setFormat(text.indexOf(word), word.length(), endColor);
+            else if(word == "function")
+                setFormat(text.indexOf(word), word.length(), endColor);
+            else if(word == "if" || word == "else" || word == "then" || word == "elseif" || word == "nil" || word == "for" || word == "do")
+                setFormat(text.indexOf(word), word.length(), bold);
+        }
+
+        int idx;
         // Keywords
-        int idx = text.indexOf("end");
+        /*int idx = text.indexOf("end");
 
         if(idx != -1)
             setFormat(idx, 3, endColor);
@@ -91,7 +105,7 @@ void LuaHighlighter::highlightBlock(const QString& text)
         idx = text.indexOf("nil");
 
         if(idx != -1)
-            setFormat(idx, 3, bold);
+            setFormat(idx, 3, bold);*/
 
         // Comments
         idx = text.indexOf("--");
