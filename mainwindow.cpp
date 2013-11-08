@@ -126,6 +126,9 @@ void MainWindow::openFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*)"));
 
+    if(fileName.isEmpty())
+        return;
+
     openFile(fileName);
 }
 
