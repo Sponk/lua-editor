@@ -1,0 +1,9 @@
+Package: lua-editor
+Version: 0.1
+Section: utils
+Priority: optional
+Architecture: amd64
+Depends: libc6, libqtgui4, lua5.1
+Maintainer: Yannick Pflanzer <yp1995@live.de>
+Description: Lua Editor
+ This program is a small text editor for editing LUA files.
