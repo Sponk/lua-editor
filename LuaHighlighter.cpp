@@ -32,8 +32,8 @@
 LuaHighlighter::LuaHighlighter(QObject *parent) :
     QSyntaxHighlighter(parent)
 {
-    endColor.setRgb(0x33, 0xCC, 0xFF);
-    commentColor.setRgb(0x33, 0xFF, 0xCC);
+    endColor.setRgb(0x00, 0x00, 0xFF);
+    commentColor.setRgb(0x08, 0xA0, 0x80);
 }
 
 void LuaHighlighter::highlightBlock(const QString& text)
@@ -45,10 +45,13 @@ void LuaHighlighter::highlightBlock(const QString& text)
     {
         if(text.at(i).isNumber())
         {
-            setFormat(i, 1, Qt::green);
+            setFormat(i, 1, QColor(0xFF, 0x80, 0x00));
         }
 
-        QStringList list = text.split(" ");
+        QString edited = text;
+        edited = edited.replace("\t", " ");
+
+        QStringList list = edited.split(" ");
         QString word;
 
         for(int i = 0; i < list.size(); i++)

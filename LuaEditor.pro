@@ -17,19 +17,27 @@ SOURCES += main.cpp\
     newfiledlg.cpp \
     AboutDlg.cpp \
     FindDlg.cpp \
-    settings.cpp
+    settings.cpp \
+    settingsdlg.cpp \
+    newprojectdlg.cpp \
+    project.cpp
 
 HEADERS  += mainwindow.h \
     LuaHighlighter.h \
     newfiledlg.h \
     AboutDlg.h \
     FindDlg.h \
-    settings.h
+    settings.h \
+    settingsdlg.h \
+    newprojectdlg.h \
+    project.h
 
 FORMS    += mainwindow.ui \
     newfiledlg.ui \
     aboutdlg.ui \
-    finddlg.ui
+    finddlg.ui \
+    settingsdlg.ui \
+    newprojectdlg.ui
 
 RESOURCES += \
     Icons.qrc

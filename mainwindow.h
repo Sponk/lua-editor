@@ -35,7 +35,9 @@
 #include "LuaHighlighter.h"
 #include <map>
 #include <QTranslator>
+#include <QProcess>
 #include "settings.h"
+#include "project.h"
 
 extern "C"
 {
@@ -76,6 +78,13 @@ public slots:
     void about();
     void find();
     void quit();
+    void showConfigurationDialog();
+    void runScript();
+    void newProject();
+    void openProject();
+
+    void readStdOutput();
+    void readError();
 
 private:
 
@@ -92,6 +101,9 @@ private:
 
     void updateCache();
     void saveFile(QString path, QString content);
+
+    QProcess luaInterpreter;
+    Project project;
 };
 
 #endif // MAINWINDOW_H

@@ -40,6 +40,16 @@ Settings::Settings()
     if(lang.hasAttribute("name"))
         language = lang.attribute("name");
 
+    QDomElement lua = elem.namedItem("luainterpreter").toElement();
+
+    if(lua.hasAttribute("path"))
+        luaInterpreter = lua.attribute("path");
+
+    QDomElement args = elem.namedItem("luaargs").toElement();
+
+    if(args.hasAttribute("args"))
+        luaArgs = args.attribute("args");
+
     return true;
  }
 
@@ -55,6 +65,8 @@ Settings::Settings()
     out << "<settings>" << endl;
 
     out << "<language name='" << language.toStdString() << "'></language>" << endl;
+    out << "<luainterpreter path='" << luaInterpreter.toStdString() << "'></luainterpreter>" << endl;
+    out << "<luaargs args='" << luaArgs.toStdString() << "'></luaargs>" << endl;
 
     out << "</settings>";
     out.close();

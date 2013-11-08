@@ -35,6 +35,8 @@
 #include "newfiledlg.h"
 #include "AboutDlg.h"
 #include "FindDlg.h"
+#include "settingsdlg.h"
+#include "newprojectdlg.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -55,6 +57,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     luaState = luaL_newstate();
     luaopen_base(luaState);
+
+    ui->sourceEdit->setFont(QFont("Courier", 10));
+
+    connect(&luaInterpreter, SIGNAL(readyReadStandardOutput()),this,SLOT(readStdOutput()));
+    connect(&luaInterpreter, SIGNAL(error(QProcess::ProcessError)),this,SLOT(readError()));
+
+    luaInterpreter.setProcessChannelMode(QProcess::MergedChannels);
 }
 
 MainWindow::~MainWindow()
@@ -63,13 +72,26 @@ MainWindow::~MainWindow()
     delete ui;    
 }
 
+
+void MainWindow::readStdOutput()
+{
+    ui->errorEdit->append(luaInterpreter.readAllStandardOutput());
+}
+
+void MainWindow::readError()
+{
+
+}
+
 void MainWindow::newFile()
 {
-    NewFileDlg dlg;
+    NewFileDlg dlg(this);
     int result = dlg.exec();
 
-    if(!result)
+    if(result == QDialog::Rejected)
+    {
         return;
+    }
 
 #ifndef WIN32
     QString name = dlg.path.toStdString().substr(dlg.path.lastIndexOf("/") + 1).c_str();
@@ -88,6 +110,16 @@ void MainWindow::newFile()
     ui->sourceEdit->setText("");
 
     numOpenFiles++;
+}
+
+void MainWindow::showConfigurationDialog()
+{
+    SettingsDlg dlg(this, this->settings);
+    if(dlg.exec() == QDialog::Rejected)
+        return;
+
+    this->settings.setLuaInterpreter(dlg.path);
+    this->settings.setLuaArgs(dlg.arguments);
 }
 
 void MainWindow::openFile()
@@ -286,7 +318,7 @@ void MainWindow::englishSelected(bool status)
 
 void MainWindow::about()
 {
-    AboutDlg dlg;
+    AboutDlg dlg(this);
     dlg.exec();
 }
 
@@ -335,4 +367,55 @@ void MainWindow::loadSettings()
         englishSelected(true);
     else if(settings.getLanguage() == "lua-editor_de")
         germanSelected(true);
+}
+
+void MainWindow::runScript()
+{
+    if(settings.getLuaInterpreter() == "")
+    {
+        QMessageBox::information(NULL, tr("Error"), tr("No LUA interpreter set!"));
+        return;
+    }
+
+    QStringList args;
+
+    args.append(settings.getLuaArgs().split(" "));
+
+    luaInterpreter.setWorkingDirectory(QDir::currentPath());
+    luaInterpreter.start(settings.getLuaInterpreter(), args);
+}
+
+void MainWindow::newProject()
+{
+    NewProjectDlg dlg(this);
+    if(dlg.exec() != QDialog::Accepted)
+    {
+        return;
+    }
+
+    project.setName(dlg.name);
+    project.setPath(dlg.path);
+
+    // TODO: Gesondert eingeben?
+    project.setWorkingDir(".");
+
+    project.save();
+
+#ifdef WIN32
+    QDir::setCurrent(dlg.path.left(dlg.path.lastIndexOf("\\")));
+#else
+    QDir::setCurrent(dlg.path.left(dlg.path.lastIndexOf("/")));
+#endif
+}
+
+void MainWindow::openProject()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.luap)"));
+    project.load(fileName);
+
+#ifdef WIN32
+    QDir::setCurrent(fileName.left(fileName.lastIndexOf("\\")));
+#else
+    QDir::setCurrent(fileName.left(fileName.lastIndexOf("/")));
+#endif
 }
