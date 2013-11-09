@@ -12,7 +12,9 @@ Settings::Settings()
 
  bool Settings::load(QString path)
  {
+#ifdef WIN32
     path = path.replace("/", "\\");
+#endif
     this->path = path;
 
     QDomDocument doc("settings");
