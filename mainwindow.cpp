@@ -169,11 +169,8 @@ void MainWindow::openFile(QString path)
     QFile file(path);
     int index = numOpenFiles;
 
-#ifndef WIN32
+    // Funktioniert trotz '/' auch für Windows
     QString name = path.toStdString().substr(path.lastIndexOf("/") + 1).c_str();
-#else
-    QString name = path.toStdString().substr(path.lastIndexOf("\\") + 1).c_str();
-#endif
 
     if(ui->openFilesList->findItems(name, Qt::MatchCaseSensitive).size() != 0)
     {
@@ -347,7 +344,11 @@ void MainWindow::quit()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     event->accept();
-    quit();
+
+    // FIXME: quit() scheint nicht zu funktionieren. Hier werden daher härtere
+    //        Massnahmen ergriffen!
+    //quit();
+    exit(0);
 }
 
 void MainWindow::loadSettings()
@@ -416,9 +417,6 @@ void MainWindow::openProject()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.luap)"));
     project.load(fileName);
 
-#ifdef WIN32
-    QDir::setCurrent(fileName.left(fileName.lastIndexOf("\\")));
-#else
+    // Funktioniert auch auf Windows trotz '/'
     QDir::setCurrent(fileName.left(fileName.lastIndexOf("/")));
-#endif
 }
