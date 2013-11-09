@@ -323,7 +323,7 @@ void MainWindow::find()
     if(numOpenFiles == 0)
         return;
 
-    FindDlg dlg;
+    FindDlg dlg(this);
 
     if(dlg.exec())
     {

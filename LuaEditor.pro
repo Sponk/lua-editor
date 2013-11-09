@@ -42,10 +42,10 @@ FORMS    += mainwindow.ui \
 RESOURCES += \
     Icons.qrc
 
-linux: INCLUDEPATH += $$PWD/lua/lua-5.2.2/install/include
+unix: INCLUDEPATH += $$PWD/lua/lua-5.2.2/install/include
 win32: INCLUDEPATH += $$PWD/lua/lua-windows/include
 
-linux: LIBS += -L$$PWD/lua/lua-5.2.2/install/lib -llua
+unix: LIBS += -L$$PWD/lua/lua-5.2.2/install/lib -llua
 win32: LIBS += -L$$PWD/lua/lua-windows -llua52
 
 OTHER_FILES += \
