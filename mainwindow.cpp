@@ -93,11 +93,7 @@ void MainWindow::newFile()
         return;
     }
 
-#ifndef WIN32
     QString name = dlg.path.toStdString().substr(dlg.path.lastIndexOf("/") + 1).c_str();
-#else
-    QString name = dlg.path.toStdString().substr(dlg.path.lastIndexOf("\\") + 1).c_str();
-#endif
 
     ui->sourceEdit->setEnabled(true);
 
@@ -344,10 +340,7 @@ void MainWindow::quit()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     event->accept();
-
-    // FIXME: quit() scheint nicht zu funktionieren. Hier werden daher härtere
-    //        Massnahmen ergriffen!
-    //quit();
+    quit();
     exit(0);
 }
 

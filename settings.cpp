@@ -12,6 +12,7 @@ Settings::Settings()
 
  bool Settings::load(QString path)
  {
+    path = path.replace("/", "\\");
     this->path = path;
 
     QDomDocument doc("settings");
