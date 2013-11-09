@@ -1,2 +1,3 @@
 *.qm
 debian-package/bin
+windows-setup/setup.exe
