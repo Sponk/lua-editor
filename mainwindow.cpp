@@ -51,14 +51,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->actionEnglish->setChecked(true);
 
-    syntaxHighlighter.setDocument(ui->sourceEdit->document());
     numOpenFiles = 0;
     currentTranslation = NULL;
 
     luaState = luaL_newstate();
     luaopen_base(luaState);
-
-    ui->sourceEdit->setFont(QFont("Courier", 10));
 
     connect(&luaInterpreter, SIGNAL(readyReadStandardOutput()),this,SLOT(readStdOutput()));
     connect(&luaInterpreter, SIGNAL(error(QProcess::ProcessError)),this,SLOT(readError()));
@@ -75,12 +72,35 @@ MainWindow::~MainWindow()
 
 void MainWindow::readStdOutput()
 {
-    ui->errorEdit->append(luaInterpreter.readAllStandardOutput());
+    ui->outputEdit->append(luaInterpreter.readAllStandardOutput());
 }
 
 void MainWindow::readError()
 {
 
+}
+
+void MainWindow::changeSelectedFile()
+{
+    syntaxHighlighter.setDocument(currentTab()->document());
+}
+
+QTextEdit* MainWindow::addTab(QString name)
+{
+    QTextEdit* editor = new QTextEdit();
+    editor->setFont(QFont("Courier", 10));
+
+    connect(editor, SIGNAL(cursorPositionChanged()),this,SLOT(cursorPositionChanged()));
+    connect(editor, SIGNAL(textChanged()),this,SLOT(updateEditorText()));
+
+    ui->sourceTabs->addTab(editor, name);
+
+    return editor;
+}
+
+QTextEdit* MainWindow::currentTab()
+{
+    return (QTextEdit*) ui->sourceTabs->currentWidget();
 }
 
 void MainWindow::newFile()
@@ -95,15 +115,10 @@ void MainWindow::newFile()
 
     QString name = dlg.path.toStdString().substr(dlg.path.lastIndexOf("/") + 1).c_str();
 
-    ui->sourceEdit->setEnabled(true);
+    QTextEdit* editor = addTab(name);
+    editor->setText("");
 
-    QListWidgetItem* item = new QListWidgetItem();
-    item->setText(name);
-    item->setData(1002, dlg.path);
-
-    ui->openFilesList->addItem(item);
-    ui->openFilesList->setCurrentRow(numOpenFiles);
-    ui->sourceEdit->setText("");
+    openFiles[name] = dlg.path;
 
     numOpenFiles++;
 }
@@ -133,15 +148,14 @@ void MainWindow::saveFile()
     if(numOpenFiles == 0)
         return;
 
-    updateCache();
-
-    QListWidgetItem* item = ui->openFilesList->selectedItems()[0];
-    QString path = item->data(1002).toString();
+    QString name = ui->sourceTabs->tabText(ui->sourceTabs->currentIndex());
+    QString path = openFiles[name];
 
     if(path.isEmpty())
         return;
 
-    saveFile(path, fileContents[item->data(1002).toString()]);
+    // qDebug(QString("Saving to " + path).toAscii());
+    saveFile(path, currentTab()->toPlainText());
 }
 
 void MainWindow::saveFile(QString path, QString content)
@@ -163,12 +177,11 @@ void MainWindow::saveFile(QString path, QString content)
 void MainWindow::openFile(QString path)
 {
     QFile file(path);
-    int index = numOpenFiles;
 
     // Funktioniert trotz '/' auch für Windows
     QString name = path.toStdString().substr(path.lastIndexOf("/") + 1).c_str();
 
-    if(ui->openFilesList->findItems(name, Qt::MatchCaseSensitive).size() != 0)
+    if(openFiles[name] != "")
     {
         QMessageBox::information(NULL, tr("Error"), tr("A file with this name is already open!"));
         return;
@@ -180,7 +193,8 @@ void MainWindow::openFile(QString path)
         return;
     }
 
-    ui->sourceEdit->setEnabled(true);
+    QTextEdit* editor = addTab(name);
+    ui->sourceTabs->setCurrentWidget(editor);
 
     QTextStream in(&file);
     QString content;
@@ -192,19 +206,12 @@ void MainWindow::openFile(QString path)
     }
 
     file.close();
+    editor->setText(content);
 
-    QListWidgetItem* item = new QListWidgetItem();
-    item->setText(name);
-
-    fileContents[path] = content;
-    item->setData(1002, path);
-
-    ui->openFilesList->addItem(item);
-    ui->openFilesList->setCurrentRow(index);
-    ui->sourceEdit->setText(content);
+    openFiles[name] = path;
+    // qDebug(QString("Opening file in tab: " + ui->sourceTabs->tabText(ui->sourceTabs->currentIndex())).toAscii());
 
     numOpenFiles++;
-    updateEditorText();
 }
 
 void MainWindow::saveFileAs()
@@ -213,32 +220,12 @@ void MainWindow::saveFileAs()
         return;
 
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Files (*)"));
-    QListWidgetItem* item = ui->openFilesList->selectedItems()[0];
 
     if(fileName == "")
         return;
 
-    saveFile(fileName, fileContents[item->data(1002).toString()]);
+    saveFile(fileName, currentTab()->toPlainText());
     openFile(fileName);
-}
-
-void MainWindow::changeSelectedFile(int idx)
-{
-    if(numOpenFiles > 1)
-        updateCache();
-
-    QListWidgetItem* item = ui->openFilesList->item(idx);
-    QString file = item->data(1002).toString();
-    QString content = fileContents[file];
-
-    ui->sourceEdit->setText(content);
-    this->setWindowTitle(file);
-}
-
-void MainWindow::updateCache()
-{
-    QListWidgetItem* item = ui->openFilesList->selectedItems()[0];
-    fileContents[item->data(1002).toString()] = ui->sourceEdit->toPlainText();
 }
 
 void MainWindow::updateEditorText()
@@ -246,7 +233,7 @@ void MainWindow::updateEditorText()
     if(numOpenFiles == 0)
         return;
 
-    QString content = ui->sourceEdit->toPlainText();
+    QString content = ((QTextEdit*)ui->sourceTabs->currentWidget())->toPlainText();
 
     int error = luaL_loadbuffer(luaState, content.toAscii(), content.length(), "line");
 
@@ -263,10 +250,12 @@ void MainWindow::updateEditorText()
 
 void MainWindow::cursorPositionChanged()
 {
-    int pos = ui->sourceEdit->textCursor().blockNumber() + 1;
+    QTextEdit* editor = currentTab();
+
+    int pos = editor->textCursor().blockNumber() + 1;
     QString message = tr("Line: ") + QString("%1").arg(pos);
 
-    pos = ui->sourceEdit->textCursor().columnNumber() + 1;
+    pos = editor->textCursor().columnNumber() + 1;
     message += " " + tr("Column: ") + QString("%1").arg(pos);
 
     ui->statusBar->showMessage(message);
@@ -327,7 +316,8 @@ void MainWindow::find()
 
     if(dlg.exec())
     {
-        ui->sourceEdit->find(dlg.searchTerm, QTextDocument::FindCaseSensitively);
+        QTextEdit* editor = currentTab();
+        editor->find(dlg.searchTerm, QTextDocument::FindCaseSensitively);
     }
 }
 
@@ -380,6 +370,9 @@ void MainWindow::runScript()
 
     luaInterpreter.setWorkingDirectory(QDir::currentPath());
     luaInterpreter.start(settings.getLuaInterpreter(), args);
+
+    ui->outputTabs->setCurrentIndex(1);
+    ui->outputEdit->setText("");
 }
 
 void MainWindow::newProject()

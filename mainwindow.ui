@@ -29,63 +29,91 @@
      <number>0</number>
     </property>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QListWidget" name="openFilesList">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="dragEnabled">
-         <bool>false</bool>
-        </property>
-        <property name="dragDropMode">
-         <enum>QAbstractItemView::NoDragDrop</enum>
-        </property>
-        <property name="isWrapping" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="sortingEnabled">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QTextEdit" name="sourceEdit">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-       </widget>
+       <widget class="QTabWidget" name="sourceTabs"/>
       </item>
       <item>
-       <widget class="QTextEdit" name="errorEdit">
+       <widget class="QTabWidget" name="outputTabs">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>70</height>
-         </size>
+        <property name="currentIndex">
+         <number>0</number>
         </property>
-        <property name="baseSize">
-         <size>
-          <width>0</width>
-          <height>50</height>
-         </size>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>Errors</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QTextEdit" name="errorEdit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_2">
+         <attribute name="title">
+          <string>Program output</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QTextEdit" name="outputEdit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </item>
      </layout>
@@ -442,54 +470,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>openFilesList</sender>
-   <signal>currentRowChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>changeSelectedFile(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>125</x>
-     <y>201</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>229</x>
-     <y>76</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>sourceEdit</sender>
-   <signal>textChanged()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>updateEditorText()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>462</x>
-     <y>185</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>258</x>
-     <y>195</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>sourceEdit</sender>
-   <signal>cursorPositionChanged()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>cursorPositionChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>434</x>
-     <y>195</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>257</x>
-     <y>135</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionGerman</sender>
    <signal>triggered(bool)</signal>
    <receiver>MainWindow</receiver>
@@ -633,6 +613,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>sourceTabs</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changeSelectedFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>306</x>
+     <y>331</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>505</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>newFile()</slot>
@@ -640,7 +636,7 @@
   <slot>saveFile()</slot>
   <slot>saveFileAs()</slot>
   <slot>quit()</slot>
-  <slot>changeSelectedFile(int)</slot>
+  <slot>changeSelectedFile()</slot>
   <slot>updateEditorText()</slot>
   <slot>cursorPositionChanged()</slot>
   <slot>germanSelected(bool)</slot>

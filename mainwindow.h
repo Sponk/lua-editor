@@ -36,6 +36,7 @@
 #include <map>
 #include <QTranslator>
 #include <QProcess>
+#include <QTextEdit>
 #include "settings.h"
 #include "project.h"
 
@@ -70,7 +71,6 @@ public slots:
     void openFile();
     void saveFile();
     void saveFileAs();
-    void changeSelectedFile(int idx);
     void updateEditorText();
     void cursorPositionChanged();
     void germanSelected(bool status);
@@ -82,6 +82,7 @@ public slots:
     void runScript();
     void newProject();
     void openProject();
+    void changeSelectedFile();
 
     void readStdOutput();
     void readError();
@@ -92,15 +93,16 @@ private:
     LuaHighlighter syntaxHighlighter;
     int numOpenFiles;
 
-    std::map<QString, QString> fileContents;
+    std::map<QString, QString> openFiles;
 
     lua_State* luaState;
 
     QTranslator* currentTranslation;
     Settings settings;
 
-    void updateCache();
     void saveFile(QString path, QString content);
+    QTextEdit* addTab(QString name);
+    QTextEdit* currentTab();
 
     QProcess luaInterpreter;
     Project project;
