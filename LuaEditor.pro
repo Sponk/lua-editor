@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml
+QT       += core widgets xml gui
 
 TARGET = lua-editor
 TEMPLATE = app
@@ -43,9 +43,11 @@ RESOURCES += \
     Icons.qrc
 
 unix: INCLUDEPATH += $$PWD/lua/lua-5.2.2/install/include
+# unix: INCLUDEPATH += /usr/include/lua5.2/
 win32: INCLUDEPATH += $$PWD/lua/lua-windows/include
 
 unix: LIBS += -L$$PWD/lua/lua-5.2.2/install/lib -llua
+# unix: LIBS += -llua5.2
 win32: LIBS += -L$$PWD/lua/lua-windows -llua52
 
 OTHER_FILES += \

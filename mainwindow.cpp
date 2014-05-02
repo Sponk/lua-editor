@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    syntaxHighlighter = new LuaHighlighter(this);
     currentTranslation = new QTranslator();
     currentTranslation->load("lua-editor_en", ":/translations");
 
@@ -66,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     lua_close(luaState);
+    delete syntaxHighlighter;
     delete ui;    
 }
 
@@ -80,9 +82,18 @@ void MainWindow::readError()
 
 }
 
+void MainWindow::onTabClose(int idx)
+{
+    QString title = ui->sourceTabs->tabText(idx);
+    // qDebug() << "Closing: " << title;
+
+    openFiles.erase(title);
+    ui->sourceTabs->removeTab(idx);
+}
+
 void MainWindow::changeSelectedFile()
 {
-    syntaxHighlighter.setDocument(currentTab()->document());
+    syntaxHighlighter->setDocument(currentTab()->document());
 }
 
 QTextEdit* MainWindow::addTab(QString name)
@@ -235,7 +246,7 @@ void MainWindow::updateEditorText()
 
     QString content = ((QTextEdit*)ui->sourceTabs->currentWidget())->toPlainText();
 
-    int error = luaL_loadbuffer(luaState, content.toAscii(), content.length(), "line");
+    int error = luaL_loadbuffer(luaState, content.toLatin1(), content.length(), "line");
 
     if(error)
     {

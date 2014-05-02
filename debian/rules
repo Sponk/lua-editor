@@ -1,0 +1,94 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+# export DH_VERBOSE=1
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	qmake-qt4
+
+	touch configure-stamp
+
+build: configure-stamp build-stamp
+build-stamp:
+	dh_testdir
+
+	# Build Lua
+	$(MAKE) -j 6 -C $(CURDIR)/lua/lua-5.2.2/ -f $(CURDIR)/lua/lua-5.2.2/Makefile linux
+
+	# Build application
+	$(MAKE) -j 6
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+
+	$(MAKE) clean -C $(CURDIR)/lua/lua-5.2.2/
+
+	# Add here commands to clean up after the build process.
+	[ ! -f Makefile ] || $(MAKE) clean
+
+	# ATTENTION: Deprecated!
+	dh_clean -k
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+	mkdir -p $(CURDIR)/debian/lua-editor/opt/lua-editor/bin
+	mv lua-editor $(CURDIR)/debian/lua-editor/opt/lua-editor/bin
+	
+	mkdir -p $(CURDIR)/debian/lua-editor/opt/lua-editor/icons
+	cp $(CURDIR)/lua-editor.svg $(CURDIR)/debian/lua-editor/opt/lua-editor/icons
+	
+	mkdir -p $(CURDIR)/debian/lua-editor/usr/share/applications
+	cp $(CURDIR)/lua-editor.desktop $(CURDIR)/debian/lua-editor/usr/share/applications
+	
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	
+	dh_testdir
+	dh_testroot
+#	dh_installdebconf	
+	dh_installdocs
+#	dh_installexamples
+	dh_installmenu
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+#	dh_installcron
+#	dh_installman
+	dh_installinfo
+#	dh_undocumented
+#	dh_installchangelogs ChangeLog
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_makeshlibs
+	dh_installdeb
+#	dh_perl
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+	
+	debian/rules clean
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

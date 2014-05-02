@@ -1,0 +1,43 @@
+lua-editor (0.1ubuntu1) UNRELEASED; urgency=medium
+
+  * Initial commit
+  * + Simple texteditor with load capability and basic syntax highlighting
+  * + Initial implementation of save
+  * + New file dialog added + You can now create new files
+  * + Lua added * Dynamic syntax checking on the fly added
+  * - Object files removed
+  * * Bug concerning the highlighting of quotes fixed
+  * * Better syntax highlighting
+  * * Open file bug fixed
+  * + Cursor position now gets displayed
+  * * Bug in line/column calculation fixed
+  * * Translation updated
+  * + About dialog added
+  * + License header added
+  * * Minor UI tweak
+  * * Translation updated
+  * + Application icon added
+  * + Find feature added
+  * * Language updated
+  * + Save as feature added
+  * * Don't free something that is alreade freed
+  * * Bug when saving without an open file fixed
+  * + Simple setting system added * Now can open files on startup
+  * * Adjusted control sizes
+  * * Adjusted toolbar
+  * * Syntax highlighting system improved
+  * * Minor UI changes
+  * * Layout optimizations * Links are now clickable when visiting the 'about' dialog
+  * + Project management added + You can now execute LUA/LÖVE from withing the IDE * Better Syntax highlighting
+  * * Updated translation
+  * * Layout tweaks * Fixed link in 'About' dialog
+  * + Debian package build environment added
+  * * Port to Windows. It now compiles and runs on MS Windows. * Bugfixes about path names in Windows
+  * + Inno setup script added for creating a Windows setup
+  * + Windows icon added
+  * * Windows bugfixes
+  * * Fixed building on Linux
+  * * Fixed Linux settings bug
+  * * Changed layout to a tab based approach
+
+ -- Yannick Pflanzer <ypflanzer@outlook.com>  Thu, 01 May 2014 13:01:57 +0200

@@ -1,0 +1,3 @@
+?package(lua-editor):needs=x11 section=Apps/Tools \
+  icon="/opt/lua-editor/icons/lua-editor.svg"\
+  title="Lua Editor" command="/opt/lua-editor/bin/lua-editor"

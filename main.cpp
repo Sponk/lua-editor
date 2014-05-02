@@ -26,7 +26,7 @@
  * Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include <QTranslator>
 #include "mainwindow.h"
 

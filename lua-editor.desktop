@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.1
+Type=Application
+Terminal=false
+Exec=/opt/lua-editor/bin/lua-editor
+Name=Lua Editor
+Icon=/opt/lua-editor/icons/lua-editor.svg
+Name[de_DE]=Lua Editor

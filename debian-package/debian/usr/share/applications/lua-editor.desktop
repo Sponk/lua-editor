@@ -1,8 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Version=0.1
-Type=Application
-Terminal=false
-Exec=/usr/bin/lua-editor
-Name=Lua Editor
-Icon=/usr/share/icons/lua-editor.svg

@@ -1,0 +1,15 @@
+Maintainer: Yannick Pflanzer <yp1995@live.de>
+Source: lua-editor
+Section: utils
+Priority: optional
+Version: 0.1
+Build-Depends: debhelper (>= 9), qt4-qmake, libqt4-dev, libreadline-dev
+
+Package: lua-editor
+Version: 0.1
+Section: utils
+Priority: optional
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqtgui4
+Description: Lua Editor
+ This program is a small text editor for editing LUA files.

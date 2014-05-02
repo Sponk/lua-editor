@@ -47,6 +47,8 @@ extern "C"
     #include <lauxlib.h>
 }
 
+// #include <lua.hpp>
+
 namespace Ui {
 class MainWindow;
 }
@@ -87,10 +89,12 @@ public slots:
     void readStdOutput();
     void readError();
 
+    void onTabClose(int idx);
+
 private:
 
     Ui::MainWindow *ui;
-    LuaHighlighter syntaxHighlighter;
+    LuaHighlighter* syntaxHighlighter;
     int numOpenFiles;
 
     std::map<QString, QString> openFiles;
